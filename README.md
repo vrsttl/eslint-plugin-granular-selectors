@@ -23,6 +23,7 @@ This plugin is compatible with:
 - ESLint 5.0.0 and above
 - React Redux, Redux Toolkit, Zustand, and other state management libraries that use selector patterns
 - Both ES5 and ES6+ codebases (automatically detects and preserves your code style)
+- TypeScript codebases (preserves type annotations)
 
 ## Usage
 
@@ -74,6 +75,9 @@ const { foo: renamedFoo, bar } = useSelector(state => state);
 var obj = useAppSelector(function(state) { return state; });
 var foo = obj.foo;
 var bar = obj.bar;
+
+// TypeScript: Destructuring with type annotations
+const { foo, bar } = useAppSelector((state: RootState) => state);
 ```
 
 #### ✅ Correct
@@ -93,6 +97,10 @@ const email = useSelector(state => state.user.email);
 // ES5: Granular selectors
 var foo = useAppSelector(function(state) { return state.foo; });
 var bar = useAppSelector(function(state) { return state.bar; });
+
+// TypeScript: Granular selectors with type annotations
+const foo = useAppSelector((state: RootState) => state.foo);
+const bar = useAppSelector((state: RootState) => state.bar);
 ```
 
 ## Features
@@ -106,6 +114,7 @@ The plugin supports:
 5. **Auto-fixing**: Automatically converts destructured selectors to granular ones
 6. **Flexible Selector Matching**: Works with any function matching the pattern `use*Selector*`
 7. **Code Style Preservation**: Automatically detects and preserves ES5 or ES6+ syntax
+8. **TypeScript Support**: Preserves type annotations in the generated code
 
 ## How It Works
 
@@ -113,7 +122,7 @@ The rule looks for:
 1. ES6 destructuring from selector hooks: `const { foo, bar } = useSelector(...)`
 2. ES5 variable assignments from selector results: `var obj = useSelector(...); var foo = obj.foo;`
 
-When it finds such patterns, it suggests replacing them with individual selector calls for each property, preserving your code style (ES5 or ES6).
+When it finds such patterns, it suggests replacing them with individual selector calls for each property, preserving your code style (ES5 or ES6) and type annotations.
 
 ## Examples
 
@@ -154,15 +163,26 @@ var foo = useAppSelector(function(state) { return state.foo; });
 var bar = useAppSelector(function(state) { return state.bar; });
 ```
 
-### Example 4: ES6 with Base Paths
+### Example 4: TypeScript with Type Annotations
 
-```js
+```ts
 // Before
-const { name, email } = useSelector(state => state.user);
+const { count, user } = useAppSelector((state: RootState) => state);
 
 // After (auto-fixed)
-const name = useSelector(state => state.user.name);
-const email = useSelector(state => state.user.email);
+const count = useAppSelector((state: RootState) => state.count);
+const user = useAppSelector((state: RootState) => state.user);
+```
+
+### Example 5: TypeScript with Complex Type Annotations
+
+```ts
+// Before
+const { items, totalCount } = useProductsSelector((state: Store<ProductState>) => state);
+
+// After (auto-fixed)
+const items = useProductsSelector((state: Store<ProductState>) => state.items);
+const totalCount = useProductsSelector((state: Store<ProductState>) => state.totalCount);
 ```
 
 ## Contributing

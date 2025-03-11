@@ -1,10 +1,11 @@
 {
   "name": "eslint-plugin-granular-selectors",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "ESLint plugin to enforce granular store selectors for Redux and Zustand",
   "main": "index.js",
   "scripts": {
     "test": "mocha tests/lib/rules/granular-selectors.js",
+    "test:ts": "npm i @typescript-eslint/parser --no-save && npm test",
     "test:eslint5": "npm i eslint@5.16.0 mocha@5.2.0 --no-save && npm test",
     "test:eslint6": "npm i eslint@6.8.0 mocha@7.2.0 --no-save && npm test",
     "test:eslint7": "npm i eslint@7.32.0 mocha@8.4.0 --no-save && npm test",
@@ -15,7 +16,8 @@
     "eslintplugin",
     "redux",
     "zustand",
-    "selectors"
+    "selectors",
+    "typescript"
   ],
   "author": "",
   "license": "MIT",
@@ -23,6 +25,7 @@
     "eslint": ">=5.0.0"
   },
   "devDependencies": {
+    "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^7.32.0",
     "mocha": "^8.4.0"
   },
