@@ -14,5 +14,5 @@ module.exports = {
         "granular-selectors/granular-selectors": "error",
       },
     },
-  },
+  }
 };

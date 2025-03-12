@@ -407,7 +407,7 @@ if (isESLint5) {
     }
   } catch (e) {
     console.log(
-      "Skipping ES6 tests due to environment limitations:",
+      "Skipping ES6 tests due to environment limitations: ",
       e.message
     );
   }

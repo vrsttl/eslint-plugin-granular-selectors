@@ -19,7 +19,7 @@
     "selectors",
     "typescript"
   ],
-  "author": "",
+  "author": "vrsttl",
   "license": "MIT",
   "peerDependencies": {
     "eslint": ">=5.0.0"
