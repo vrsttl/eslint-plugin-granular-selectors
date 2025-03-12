@@ -115,6 +115,8 @@ The plugin supports:
 6. **Flexible Selector Matching**: Works with any function matching the pattern `use*Selector*`
 7. **Code Style Preservation**: Automatically detects and preserves ES5 or ES6+ syntax
 8. **TypeScript Support**: Preserves type annotations in the generated code
+9. **Supports property aliases and default values in destructuring**
+10. **Comprehensive test coverage**
 
 ## How It Works
 
@@ -183,6 +185,17 @@ const { items, totalCount } = useProductsSelector((state: Store<ProductState>) =
 // After (auto-fixed)
 const items = useProductsSelector((state: Store<ProductState>) => state.items);
 const totalCount = useProductsSelector((state: Store<ProductState>) => state.totalCount);
+```
+
+### Example 6: Property aliases and default values
+
+```js
+// ❌ Bad
+const { jobs: jobsList = [], totalCount = 0 } = useSelector(state => state.hiringExtensionJobs || {});
+
+// ✅ Good
+const jobsList = useSelector(state => state.hiringExtensionJobs.jobs) || [];
+const totalCount = useSelector(state => state.hiringExtensionJobs.totalCount) || 0;
 ```
 
 ## Contributing
