@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-granular-selectors",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "ESLint plugin to enforce granular store selectors for Redux and Zustand",
   "main": "index.js",
   "scripts": {

@@ -235,3 +235,5 @@ const totalCount = useProductsSelector((state: Store<ProductState>) => state.tot
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+https://github.com/vrsttl/eslint-plugin-granular-selectors
