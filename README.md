@@ -236,4 +236,6 @@ const totalCount = useProductsSelector((state: Store<ProductState>) => state.tot
 
 Contributions are welcome! Please feel free to submit a Pull Request!
 
-https://github.com/vrsttl/eslint-plugin-granular-selectors
+If you think I solved one of your headaches, feel free to [tip me](https://revolut.me/attilanknz) with as much money as you see fit. This is a Revolut payment link that you can use with Apple Pay too. 
+
+You will find the Repo [here](https://github.com/vrsttl/eslint-plugin-granular-selectors).
