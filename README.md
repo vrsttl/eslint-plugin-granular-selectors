@@ -117,6 +117,7 @@ The plugin supports:
 8. **TypeScript Support**: Preserves type annotations in the generated code
 9. **Supports property aliases and default values in destructuring**
 10. **Comprehensive test coverage**
+11. **Preserves fallback logic (|| and ?? from selectors)**
 
 ## How It Works
 
@@ -194,8 +195,41 @@ const totalCount = useProductsSelector((state: Store<ProductState>) => state.tot
 const { jobs: jobsList = [], totalCount = 0 } = useSelector(state => state.hiringExtensionJobs || {});
 
 // ✅ Good
-const jobsList = useSelector(state => state.hiringExtensionJobs.jobs) || [];
-const totalCount = useSelector(state => state.hiringExtensionJobs.totalCount) || 0;
+const jobsList = useSelector(state => state.hiringExtensionJobs.jobs || {}) || [];
+const totalCount = useSelector(state => state.hiringExtensionJobs.totalCount || {}) || 0;
+```
+
+### Example 7: Fallback logic preservation
+
+```js
+// ❌ Bad
+const { items, count } = useSelector(state => state.data || {});
+
+// ✅ Good
+const items = useSelector(state => state.data.items || {});
+const count = useSelector(state => state.data.count || {});
+```
+
+### Example 8: Fallback logic preservation with null check
+
+```js
+// ❌ Bad
+const { name, email } = useSelector(state => state.user ?? null);
+
+// ✅ Good
+const name = useSelector(state => state.user.name ?? null);
+const email = useSelector(state => state.user.email ?? null);
+```
+
+### Example 9: TypeScript support
+
+```ts
+// ❌ Bad
+const { items, totalCount } = useProductsSelector((state: Store<ProductState>) => state);
+
+// ✅ Good
+const items = useProductsSelector((state: Store<ProductState>) => state.items);
+const totalCount = useProductsSelector((state: Store<ProductState>) => state.totalCount);
 ```
 
 ## Contributing
