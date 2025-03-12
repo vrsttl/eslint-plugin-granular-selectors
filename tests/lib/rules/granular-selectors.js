@@ -227,6 +227,42 @@ if (isESLint5) {
           output:
             "const jobsList = useSelector(state => state.hiringExtensionJobs.jobs || {}) || [];\nconst totalCount = useSelector(state => state.hiringExtensionJobs.totalCount || {}) || 0;",
         },
+        // Specific test case for hiringExtensionJobs example
+        {
+          code: "const { jobs: jobsList = [], totalCount = 0 } = useSelector(state => state.hiringExtensionJobs);",
+          errors: [
+            {
+              message:
+                "Avoid destructuring from selectors. Use granular selectors that return specific values.",
+            },
+          ],
+          output:
+            "const jobsList = useSelector(state => state.hiringExtensionJobs.jobs) || [];\nconst totalCount = useSelector(state => state.hiringExtensionJobs.totalCount) || 0;",
+        },
+        // Test for property alias without default value
+        {
+          code: "const { name: profileName } = useSelector(state => state.profile);",
+          errors: [
+            {
+              message:
+                "Avoid destructuring from selectors. Use granular selectors that return specific values.",
+            },
+          ],
+          output:
+            "const profileName = useSelector(state => state.profile.name);",
+        },
+        // Test for combined property alias, default values, and base path
+        {
+          code: "const { name: profileName = 'Guest', email = '' } = useSelector(state => state.profile || {});",
+          errors: [
+            {
+              message:
+                "Avoid destructuring from selectors. Use granular selectors that return specific values.",
+            },
+          ],
+          output:
+            "const profileName = useSelector(state => state.profile.name || {}) || 'Guest';\nconst email = useSelector(state => state.profile.email || {}) || '';",
+        },
         // Test for fallback logic with logical OR
         {
           code: "const { items, count } = useSelector(state => state.data || {});",
