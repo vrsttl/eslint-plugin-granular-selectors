@@ -118,12 +118,14 @@ The plugin supports:
 9. **Supports property aliases and default values in destructuring**
 10. **Comprehensive test coverage**
 11. **Preserves fallback logic (|| and ?? from selectors)**
+12. **Handles object literals in selectors**: Correctly processes selectors that return object literals with explicit property mappings
 
 ## How It Works
 
 The rule looks for:
 1. ES6 destructuring from selector hooks: `const { foo, bar } = useSelector(...)`
 2. ES5 variable assignments from selector results: `var obj = useSelector(...); var foo = obj.foo;`
+3. Destructuring from selectors that return object literals: `const { foo, bar } = useSelector(state => ({ foo: state.a.foo, bar: state.b.bar }))`
 
 When it finds such patterns, it suggests replacing them with individual selector calls for each property, preserving your code style (ES5 or ES6) and type annotations.
 
@@ -232,6 +234,26 @@ const items = useProductsSelector((state: Store<ProductState>) => state.items);
 const totalCount = useProductsSelector((state: Store<ProductState>) => state.totalCount);
 ```
 
+### Example 10: Object literals in selectors
+
+```js
+// ❌ Bad
+const {
+  countryCode,
+  followProfileError,
+  isLoggedIn,
+} = useSelector((state) => ({
+  countryCode: state.profile.countryCode,
+  followProfileError: state.notifications?.err,
+  isLoggedIn: state.user.isLoggedIn,
+}));
+
+// ✅ Good
+const countryCode = useSelector((state) => state.profile.countryCode);
+const followProfileError = useSelector((state) => state.notifications?.err);
+const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+```
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request!
@@ -239,3 +261,19 @@ Contributions are welcome! Please feel free to submit a Pull Request!
 If you think I solved one of your headaches, feel free to [tip me](https://revolut.me/attilanknz) with as much money as you see fit. This is a Revolut payment link that you can use with Apple Pay too. 
 
 You will find the Repo [here](https://github.com/vrsttl/eslint-plugin-granular-selectors).
+
+## Changelog
+
+### Version 1.2.4
+- Added support for object literals in selectors
+- Fixed handling of selectors that return explicit property mappings
+- Improved TypeScript support with better handling of optional chaining
+
+### Version 1.2.3
+- Initial release
+- Support for ES5 and ES6+ code styles
+- Compatible with ESLint 5 and above
+- Support for TypeScript type annotations
+- Handling of property aliases and default values
+- Support for nested destructuring patterns
+- Preservation of fallback logic (|| and ??)

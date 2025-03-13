@@ -299,6 +299,40 @@ if (isESLint5) {
           output:
             "const name = useSelector(state => state.user.name ?? {}) || 'Guest';\nconst email = useSelector(state => state.user.email ?? {}) || '';",
         },
+        // Test for object literals in selectors
+        {
+          code: `const {
+            countryCode,
+            followProfileError,
+            isLoggedIn,
+            isRequestingFollow,
+            profileName,
+            profileUuid,
+            userIsFollowingProfile,
+          } = useSelector((state) => ({
+            countryCode: state.profile.countryCode,
+            followProfileError: state.notifications?.err,
+            isLoggedIn: state.user.isLoggedIn,
+            isRequestingFollow: state.notifications?.isFetching,
+            profileName: state.profile.name,
+            profileUuid: state.profile.uuid,
+            userIsFollowingProfile: state.notifications?.userIsFollowingProfile,
+          }));`,
+          errors: [
+            {
+              message:
+                "Avoid destructuring from selectors. Use granular selectors that return specific values.",
+            },
+          ],
+          output:
+            `const countryCode = useSelector((state) => state.profile.countryCode);
+const followProfileError = useSelector((state) => state.notifications?.err);
+const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+const isRequestingFollow = useSelector((state) => state.notifications?.isFetching);
+const profileName = useSelector((state) => state.profile.name);
+const profileUuid = useSelector((state) => state.profile.uuid);
+const userIsFollowingProfile = useSelector((state) => state.notifications?.userIsFollowingProfile);`,
+        },
       ],
     });
 
