@@ -50,6 +50,80 @@ module.exports = {
 }
 ```
 
+### Configuration Options
+
+The rule accepts the following options:
+
+```js
+{
+  'granular-selectors/granular-selectors': ['error', {
+    // Array of patterns to include for selector function detection
+    include: ['use.*Selector.*', 'createSelector', 'select.*'],
+    
+    // Array of patterns to exclude from selector function detection
+    exclude: ['useSelectOptions', 'useSelectorRef'],
+    
+    // Code patterns to ignore (e.g., specific variable names or patterns)
+    ignorePatterns: ['.*ForceDestructure.*', '.*IgnoreThis.*']
+  }]
+}
+```
+
+#### include
+
+An array of strings that will be converted to regular expressions to match selector function names. The default is `['use.*Selector.*']`, which matches common patterns like `useSelector`, `useAppSelector`, `useStoreSelector`, etc.
+
+You can customize this to match your specific selector naming conventions:
+
+```js
+// Example: Match Redux's createSelector and reselect patterns
+{
+  'granular-selectors/granular-selectors': ['error', {
+    include: [
+      'use.*Selector.*',  // React hooks style selectors
+      'createSelector',   // Redux/Reselect
+      'select.*',         // Custom selectors like selectUserData
+      'get.*State'        // Getters like getUserState
+    ]
+  }]
+}
+```
+
+#### exclude
+
+An array of strings that will be converted to regular expressions to exclude specific function names from being treated as selectors, even if they match the `include` patterns.
+
+```js
+// Example: Exclude specific functions that match the general pattern
+{
+  'granular-selectors/granular-selectors': ['error', {
+    include: ['use.*Selector.*'],
+    exclude: [
+      'useSelectOptions',     // Not a state selector
+      'useSelectorRef',       // Not a state selector
+      'useSelectorComponent'  // Not a state selector
+    ]
+  }]
+}
+```
+
+#### ignorePatterns
+
+An array of strings that will be converted to regular expressions to ignore specific code patterns. This is useful for ignoring specific variable names or code patterns where you want to allow destructuring from selectors.
+
+```js
+// Example: Ignore specific patterns
+{
+  'granular-selectors/granular-selectors': ['error', {
+    ignorePatterns: [
+      '.*ForceDestructure.*',  // Ignore variables with ForceDestructure in the name
+      '.*IgnoreThis.*',        // Ignore variables with IgnoreThis in the name
+      '.*// eslint-disable-line.*'  // Ignore lines with inline disable comments
+    ]
+  }]
+}
+```
+
 ## Rules
 
 ### granular-selectors
@@ -264,10 +338,16 @@ You will find the Repo [here](https://github.com/vrsttl/eslint-plugin-granular-s
 
 ## Changelog
 
-### Version 1.2.4
+### Version 1.3.0
 - Added support for object literals in selectors
 - Fixed handling of selectors that return explicit property mappings
 - Improved TypeScript support with better handling of optional chaining
+- Enhanced configuration options for greater flexibility:
+  - Added `include` option for specifying selector patterns to match
+  - Added `exclude` option for excluding specific function names from being treated as selectors
+  - Added `ignorePatterns` option for ignoring specific code patterns
+- Maintained backward compatibility with previous configuration options
+- Fixed handling of object literals in selectors with proper parentheses preservation
 
 ### Version 1.2.3
 - Initial release
