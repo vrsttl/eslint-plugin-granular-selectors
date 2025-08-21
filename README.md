@@ -145,6 +145,11 @@ const { user: { name, email }, settings } = useAppSelector(state => state);
 // ES6: Destructuring with aliases
 const { foo: renamedFoo, bar } = useSelector(state => state);
 
+// ES6: Destructuring from selector variables
+const obj = useSelector(state => state);
+const { a } = obj;
+const { b } = obj;
+
 // ES5: Variable assignments from selector result
 var obj = useAppSelector(function(state) { return state; });
 var foo = obj.foo;
@@ -198,8 +203,9 @@ The plugin supports:
 
 The rule looks for:
 1. ES6 destructuring from selector hooks: `const { foo, bar } = useSelector(...)`
-2. ES5 variable assignments from selector results: `var obj = useSelector(...); var foo = obj.foo;`
-3. Destructuring from selectors that return object literals: `const { foo, bar } = useSelector(state => ({ foo: state.a.foo, bar: state.b.bar }))`
+2. ES6 destructuring from selector variables: `const obj = useSelector(...); const { a } = obj;`
+3. ES5 variable assignments from selector results: `var obj = useSelector(...); var foo = obj.foo;`
+4. Destructuring from selectors that return object literals: `const { foo, bar } = useSelector(state => ({ foo: state.a.foo, bar: state.b.bar }))`
 
 When it finds such patterns, it suggests replacing them with individual selector calls for each property, preserving your code style (ES5 or ES6) and type annotations.
 
@@ -228,7 +234,21 @@ const email = useAppSelector(state => state.user.email);
 const settings = useAppSelector(state => state.settings);
 ```
 
-### Example 3: ES5 Variable Assignments
+### Example 3: ES6 Destructuring from Selector Variables
+
+```js
+// Before
+const obj = useSelector(state => state);
+const { a } = obj;
+const { b } = obj;
+
+// After (auto-fixed)
+const obj = useSelector(state => state);
+const a = useSelector(state => state.a);
+const b = useSelector(state => state.b);
+```
+
+### Example 4: ES5 Variable Assignments
 
 ```js
 // Before
@@ -242,7 +262,7 @@ var foo = useAppSelector(function(state) { return state.foo; });
 var bar = useAppSelector(function(state) { return state.bar; });
 ```
 
-### Example 4: TypeScript with Type Annotations
+### Example 5: TypeScript with Type Annotations
 
 ```ts
 // Before
@@ -253,7 +273,7 @@ const count = useAppSelector((state: RootState) => state.count);
 const user = useAppSelector((state: RootState) => state.user);
 ```
 
-### Example 5: TypeScript with Complex Type Annotations
+### Example 6: TypeScript with Complex Type Annotations
 
 ```ts
 // Before
@@ -264,7 +284,7 @@ const items = useProductsSelector((state: Store<ProductState>) => state.items);
 const totalCount = useProductsSelector((state: Store<ProductState>) => state.totalCount);
 ```
 
-### Example 6: Property aliases and default values
+### Example 7: Property aliases and default values
 
 ```js
 // ❌ Bad
