@@ -338,6 +338,15 @@ You will find the Repo [here](https://github.com/vrsttl/eslint-plugin-granular-s
 
 ## Changelog
 
+### Version 1.3.1
+- **Fixed ESLint 9 compatibility**: Resolved `TypeError: context.getScope is not a function` error
+- Added support for ESLint 9.x flat config format while maintaining backwards compatibility
+- Updated `context.getScope()` usage to be compatible with ESLint 9+ API changes
+- Added `test:eslint9` script for testing with ESLint 9.31.0
+- Improved RuleTester configuration to automatically detect and use appropriate config format
+- All tests now pass across ESLint 5.16.0 through 9.31.0
+- Enhanced TypeScript parser usage to eliminate unused variables
+
 ### Version 1.3.0
 - Added support for object literals in selectors
 - Fixed handling of selectors that return explicit property mappings
