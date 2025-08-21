@@ -6,19 +6,32 @@
 var rule = require("../../../lib/rules/granular-selectors");
 var RuleTester = require("eslint").RuleTester;
 
-// More reliable way to detect ESLint 5
+// More reliable way to detect ESLint versions
 var eslintVersion = require("eslint/package.json").version;
 var isESLint5 = eslintVersion.startsWith("5.");
+var isESLint9Plus = parseInt(eslintVersion.split(".")[0]) >= 9;
 
 console.log("Detected ESLint version:", eslintVersion);
 
-// Use a very basic configuration for maximum compatibility with ESLint 5
-var ruleTester = new RuleTester({
-  parserOptions: {
-    ecmaVersion: 5,
-    sourceType: "script",
-  },
-});
+// Use appropriate configuration format based on ESLint version
+var ruleTester;
+if (isESLint9Plus) {
+  // ESLint 9+ uses flat config format
+  ruleTester = new RuleTester({
+    languageOptions: {
+      ecmaVersion: 5,
+      sourceType: "script",
+    },
+  });
+} else {
+  // ESLint 5-8 uses eslintrc format
+  ruleTester = new RuleTester({
+    parserOptions: {
+      ecmaVersion: 5,
+      sourceType: "script",
+    },
+  });
+}
 
 // Run tests with ES5 syntax
 ruleTester.run("granular-selectors", rule, {
@@ -135,12 +148,24 @@ if (isESLint5) {
 } else {
   try {
     // ES6 tests without TypeScript
-    var es6RuleTester = new RuleTester({
-      parserOptions: {
-        ecmaVersion: 2020, // Update to 2020 to support nullish coalescing
-        sourceType: "module",
-      },
-    });
+    var es6RuleTester;
+    if (isESLint9Plus) {
+      // ESLint 9+ uses flat config format
+      es6RuleTester = new RuleTester({
+        languageOptions: {
+          ecmaVersion: 2020, // Update to 2020 to support nullish coalescing
+          sourceType: "module",
+        },
+      });
+    } else {
+      // ESLint 5-8 uses eslintrc format
+      es6RuleTester = new RuleTester({
+        parserOptions: {
+          ecmaVersion: 2020, // Update to 2020 to support nullish coalescing
+          sourceType: "module",
+        },
+      });
+    }
 
     // These tests will only run in ESLint 6+ environments
     es6RuleTester.run("granular-selectors-es6", rule, {
@@ -342,18 +367,38 @@ const userIsFollowingProfile = useSelector((state) => state.notifications?.userI
       var typescriptParser = require("@typescript-eslint/parser");
 
       // Create a TypeScript-specific rule tester
-      var tsRuleTester = new RuleTester({
-        parser: require.resolve("@typescript-eslint/parser"), // Use require.resolve to get the absolute path
-        parserOptions: {
-          ecmaVersion: 2020, // Update to 2020 to support nullish coalescing
-          sourceType: "module",
-          ecmaFeatures: {
-            jsx: true,
+      var tsRuleTester;
+      if (isESLint9Plus) {
+        // ESLint 9+ uses flat config format
+        tsRuleTester = new RuleTester({
+          languageOptions: {
+            ecmaVersion: 2020, // Update to 2020 to support nullish coalescing
+            sourceType: "module",
+            parser: typescriptParser,
+            parserOptions: {
+              ecmaFeatures: {
+                jsx: true,
+              },
+              // Add TypeScript-specific parser options
+              warnOnUnsupportedTypeScriptVersion: false,
+            },
           },
-          // Add TypeScript-specific parser options
-          warnOnUnsupportedTypeScriptVersion: false,
-        },
-      });
+        });
+      } else {
+        // ESLint 5-8 uses eslintrc format
+        tsRuleTester = new RuleTester({
+          parser: require.resolve("@typescript-eslint/parser"), // Use require.resolve to get the absolute path
+          parserOptions: {
+            ecmaVersion: 2020, // Update to 2020 to support nullish coalescing
+            sourceType: "module",
+            ecmaFeatures: {
+              jsx: true,
+            },
+            // Add TypeScript-specific parser options
+            warnOnUnsupportedTypeScriptVersion: false,
+          },
+        });
+      }
 
       // Run TypeScript-specific tests
       tsRuleTester.run("granular-selectors-typescript", rule, {
