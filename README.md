@@ -261,7 +261,7 @@ const userEducationLabel = useSelector(state => state.userSubmissions.educationL
 const userEducationLevel = useSelector(state => state.userSubmissions.educationLevel);
 ```
 
-### Example 4: ES5 Variable Assignments
+### Example 4: ES5 Coordinated Transformation
 
 ```js
 // Before
@@ -269,8 +269,7 @@ var obj = useAppSelector(function(state) { return state; });
 var foo = obj.foo;
 var bar = obj.bar;
 
-// After (auto-fixed)
-var obj = useAppSelector(function(state) { return state; });
+// After (auto-fixed with coordinated transformation)
 var foo = useAppSelector(function(state) { return state.foo; });
 var bar = useAppSelector(function(state) { return state.bar; });
 ```

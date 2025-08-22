@@ -60,7 +60,7 @@ ruleTester.run("granular-selectors", rule, {
         },
       ],
       output:
-        "var obj = useAppSelector(function(state) { return state; }); var foo = useAppSelector(function(state) { return state.foo; }); var bar = useAppSelector(function(state) { return state.bar; });",
+        "var foo = useAppSelector(function(state) { return state.foo; }); var bar = useAppSelector(function(state) { return state.bar; });",
     },
     {
       code: "var obj = useSelector(function(state) { return state.data; }); var foo = obj.foo; var bar = obj.bar;",
@@ -75,7 +75,7 @@ ruleTester.run("granular-selectors", rule, {
         },
       ],
       output:
-        "var obj = useSelector(function(state) { return state.data; }); var foo = useSelector(function(state) { return state.data.foo; }); var bar = useSelector(function(state) { return state.data.bar; });",
+        "var foo = useSelector(function(state) { return state.data.foo; }); var bar = useSelector(function(state) { return state.data.bar; });",
     },
     {
       code: "var obj = useStoreSelector(function(state) { return state; }); var count = obj.count; var increment = obj.increment;",
@@ -90,7 +90,7 @@ ruleTester.run("granular-selectors", rule, {
         },
       ],
       output:
-        "var obj = useStoreSelector(function(state) { return state; }); var count = useStoreSelector(function(state) { return state.count; }); var increment = useStoreSelector(function(state) { return state.increment; });",
+        "var count = useStoreSelector(function(state) { return state.count; }); var increment = useStoreSelector(function(state) { return state.increment; });",
     },
     {
       code: "var obj = useProductsSelector(function(state) { return state; }); var items = obj.items; var totalCount = obj.totalCount;",
@@ -105,7 +105,7 @@ ruleTester.run("granular-selectors", rule, {
         },
       ],
       output:
-        "var obj = useProductsSelector(function(state) { return state; }); var items = useProductsSelector(function(state) { return state.items; }); var totalCount = useProductsSelector(function(state) { return state.totalCount; });",
+        "var items = useProductsSelector(function(state) { return state.items; }); var totalCount = useProductsSelector(function(state) { return state.totalCount; });",
     },
     // Test for fallback logic with logical OR
     {
@@ -121,7 +121,7 @@ ruleTester.run("granular-selectors", rule, {
         },
       ],
       output:
-        "var obj = useSelector(function(state) { return state.data || {}; }); var items = useSelector(function(state) { return state.data.items || {}; }); var count = useSelector(function(state) { return state.data.count || {}; });",
+        "var items = useSelector(function(state) { return state.data.items || {}; }); var count = useSelector(function(state) { return state.data.count || {}; });",
     },
     // Test for fallback logic with logical OR instead of nullish coalescing for ES5
     {
@@ -137,7 +137,7 @@ ruleTester.run("granular-selectors", rule, {
         },
       ],
       output:
-        "var obj = useSelector(function(state) { return state.user || null; }); var name = useSelector(function(state) { return state.user.name || null; }); var email = useSelector(function(state) { return state.user.email || null; });",
+        "var name = useSelector(function(state) { return state.user.name || null; }); var email = useSelector(function(state) { return state.user.email || null; });",
     },
   ],
 });
