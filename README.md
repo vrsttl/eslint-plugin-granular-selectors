@@ -248,6 +248,19 @@ const a = useSelector(state => state.a);
 const b = useSelector(state => state.b);
 ```
 
+### Example 3.5: Coordinated Transformation (Destructuring + Property Accesses)
+
+```js
+// Before
+const {userSubmissions} = useSelector(state => state);
+const userEducationLabel = userSubmissions.educationLevelLabel;
+const userEducationLevel = userSubmissions.educationLevel;
+
+// After (auto-fixed with coordinated transformation)
+const userEducationLabel = useSelector(state => state.userSubmissions.educationLevelLabel);
+const userEducationLevel = useSelector(state => state.userSubmissions.educationLevel);
+```
+
 ### Example 4: ES5 Variable Assignments
 
 ```js
