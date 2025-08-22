@@ -370,6 +370,14 @@ You will find the Repo [here](https://github.com/vrsttl/eslint-plugin-granular-s
 
 ## Changelog
 
+### Version 1.4.0
+- **Added ES5 coordinated transformation**: Implemented full support for ES5 coordinated transformation patterns
+- Fixed ES5 pattern detection: `var obj = useSelector(...); var foo = obj.foo; var bar = obj.bar;` now transforms to eliminate intermediate variables entirely  
+- Enhanced fallback logic preservation for ES5 coordinated transformations
+- Improved scope analysis and handler coordination to prevent duplicate transformations
+- Updated test suite to properly validate ES5 coordinated transformation behavior
+- Added comprehensive documentation and examples for ES5 coordinated transformation
+
 ### Version 1.3.3
 - **Fixed coordinated transformation bug**: Fixed issue where ES6 destructuring from selector variables followed by property accesses was not being detected and transformed
 - Added coordinated transformation that eliminates intermediate destructuring variables entirely when followed by property accesses

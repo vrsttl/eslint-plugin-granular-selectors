@@ -54,13 +54,9 @@ ruleTester.run("granular-selectors", rule, {
           message:
             "Avoid destructuring from selectors. Use granular selectors that return specific values.",
         },
-        {
-          message:
-            "Avoid destructuring from selectors. Use granular selectors that return specific values.",
-        },
       ],
       output:
-        "var foo = useAppSelector(function(state) { return state.foo; }); var bar = useAppSelector(function(state) { return state.bar; });",
+        "var foo = useAppSelector(function(state) { return state.foo; });\nvar bar = useAppSelector(function(state) { return state.bar; });  ",
     },
     {
       code: "var obj = useSelector(function(state) { return state.data; }); var foo = obj.foo; var bar = obj.bar;",
@@ -69,13 +65,9 @@ ruleTester.run("granular-selectors", rule, {
           message:
             "Avoid destructuring from selectors. Use granular selectors that return specific values.",
         },
-        {
-          message:
-            "Avoid destructuring from selectors. Use granular selectors that return specific values.",
-        },
       ],
       output:
-        "var foo = useSelector(function(state) { return state.data.foo; }); var bar = useSelector(function(state) { return state.data.bar; });",
+        "var foo = useSelector(function(state) { return state.data.foo; });\nvar bar = useSelector(function(state) { return state.data.bar; });  ",
     },
     {
       code: "var obj = useStoreSelector(function(state) { return state; }); var count = obj.count; var increment = obj.increment;",
@@ -84,13 +76,9 @@ ruleTester.run("granular-selectors", rule, {
           message:
             "Avoid destructuring from selectors. Use granular selectors that return specific values.",
         },
-        {
-          message:
-            "Avoid destructuring from selectors. Use granular selectors that return specific values.",
-        },
       ],
       output:
-        "var count = useStoreSelector(function(state) { return state.count; }); var increment = useStoreSelector(function(state) { return state.increment; });",
+        "var count = useStoreSelector(function(state) { return state.count; });\nvar increment = useStoreSelector(function(state) { return state.increment; });  ",
     },
     {
       code: "var obj = useProductsSelector(function(state) { return state; }); var items = obj.items; var totalCount = obj.totalCount;",
@@ -99,13 +87,9 @@ ruleTester.run("granular-selectors", rule, {
           message:
             "Avoid destructuring from selectors. Use granular selectors that return specific values.",
         },
-        {
-          message:
-            "Avoid destructuring from selectors. Use granular selectors that return specific values.",
-        },
       ],
       output:
-        "var items = useProductsSelector(function(state) { return state.items; }); var totalCount = useProductsSelector(function(state) { return state.totalCount; });",
+        "var items = useProductsSelector(function(state) { return state.items; });\nvar totalCount = useProductsSelector(function(state) { return state.totalCount; });  ",
     },
     // Test for fallback logic with logical OR
     {
@@ -115,13 +99,9 @@ ruleTester.run("granular-selectors", rule, {
           message:
             "Avoid destructuring from selectors. Use granular selectors that return specific values.",
         },
-        {
-          message:
-            "Avoid destructuring from selectors. Use granular selectors that return specific values.",
-        },
       ],
       output:
-        "var items = useSelector(function(state) { return state.data.items || {}; }); var count = useSelector(function(state) { return state.data.count || {}; });",
+        "var items = useSelector(function(state) { return state.data.items || {}; });\nvar count = useSelector(function(state) { return state.data.count || {}; });  ",
     },
     // Test for fallback logic with logical OR instead of nullish coalescing for ES5
     {
@@ -131,13 +111,9 @@ ruleTester.run("granular-selectors", rule, {
           message:
             "Avoid destructuring from selectors. Use granular selectors that return specific values.",
         },
-        {
-          message:
-            "Avoid destructuring from selectors. Use granular selectors that return specific values.",
-        },
       ],
       output:
-        "var name = useSelector(function(state) { return state.user.name || null; }); var email = useSelector(function(state) { return state.user.email || null; });",
+        "var name = useSelector(function(state) { return state.user.name || null; });\nvar email = useSelector(function(state) { return state.user.email || null; });  ",
     },
   ],
 });
@@ -232,13 +208,9 @@ if (isESLint5) {
               message:
                 "Avoid destructuring from selectors. Use granular selectors that return specific values.",
             },
-            {
-              message:
-                "Avoid destructuring from selectors. Use granular selectors that return specific values.",
-            },
           ],
           output:
-            "const obj = useStoreSelector(state => state); const count = useStoreSelector(state => state.count); const increment = useStoreSelector(state => state.increment);",
+            "const count = useStoreSelector(state => state.count);\nconst increment = useStoreSelector(state => state.increment);  ",
         },
         // Test for aliases and default values
         {
