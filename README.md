@@ -371,11 +371,12 @@ You will find the Repo [here](https://github.com/vrsttl/eslint-plugin-granular-s
 
 ## Changelog
 
-### Version 1.3.2
+### Version 1.3.3
 - **Fixed coordinated transformation bug**: Fixed issue where ES6 destructuring from selector variables followed by property accesses was not being detected and transformed
 - Added coordinated transformation that eliminates intermediate destructuring variables entirely when followed by property accesses
 - Enhanced test coverage for coordinated transformation patterns
 - Improved auto-fixing logic to prevent duplicate transformations
+- Added proper documentation and examples for coordinated transformation pattern
 
 ### Version 1.3.1
 - **Fixed ESLint 9 compatibility**: Resolved `TypeError: context.getScope is not a function` error
