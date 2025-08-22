@@ -207,7 +207,7 @@ The rule looks for:
 3. ES5 variable assignments from selector results: `var obj = useSelector(...); var foo = obj.foo;`
 4. Destructuring from selectors that return object literals: `const { foo, bar } = useSelector(state => ({ foo: state.a.foo, bar: state.b.bar }))`
 
-When it finds such patterns, it suggests replacing them with individual selector calls for each property, preserving your code style (ES5 or ES6) and type annotations.
+When it finds such patterns, it transforms them into individual granular selector calls for each property, preserving your code style (ES5 or ES6) and type annotations. For destructuring patterns with subsequent property accesses, it performs a coordinated transformation that eliminates intermediate variables entirely.
 
 ## Examples
 
@@ -357,6 +357,12 @@ If you think I solved one of your headaches, feel free to [tip me](https://revol
 You will find the Repo [here](https://github.com/vrsttl/eslint-plugin-granular-selectors).
 
 ## Changelog
+
+### Version 1.3.3
+- **Fixed coordinated transformation bug**: Fixed issue where ES6 destructuring from selector variables followed by property accesses was not being detected and transformed
+- Added coordinated transformation that eliminates intermediate destructuring variables entirely when followed by property accesses
+- Enhanced test coverage for coordinated transformation patterns
+- Improved auto-fixing logic to prevent duplicate transformations
 
 ### Version 1.3.1
 - **Fixed ESLint 9 compatibility**: Resolved `TypeError: context.getScope is not a function` error

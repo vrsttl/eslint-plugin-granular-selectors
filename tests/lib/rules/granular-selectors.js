@@ -358,7 +358,7 @@ const profileName = useSelector((state) => state.profile.name);
 const profileUuid = useSelector((state) => state.profile.uuid);
 const userIsFollowingProfile = useSelector((state) => state.notifications?.userIsFollowingProfile);`,
         },
-        // Test for ES6 destructuring from selector variables (the bug we fixed)
+        // Test for ES6 destructuring from selector variables (original pattern)
         {
           code: "const obj = useSelector(state => state); const { a } = obj; const { b } = obj;",
           errors: [
@@ -373,6 +373,17 @@ const userIsFollowingProfile = useSelector((state) => state.notifications?.userI
           ],
           output:
             "const obj = useSelector(state => state); const a = useSelector(state => state.a); const b = useSelector(state => state.b);",
+        },
+        // Test for coordinated transformation (destructuring + property accesses)
+        {
+          code: "const {userSubmissions} = useSelector(state => state); const userEducationLabel = userSubmissions.educationLevelLabel; const userEducationLevel = userSubmissions.educationLevel;",
+          errors: [
+            {
+              message:
+                "Avoid destructuring from selectors. Use granular selectors that return specific values.",
+            },
+          ],
+          output: " const userEducationLabel = useSelector(state => state.userSubmissions.educationLevelLabel); const userEducationLevel = useSelector(state => state.userSubmissions.educationLevel);",
         },
       ],
     });
