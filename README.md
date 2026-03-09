@@ -370,6 +370,11 @@ You will find the Repo [here](https://github.com/vrsttl/eslint-plugin-granular-s
 
 ## Changelog
 
+### Version 1.5.0
+- **ESLint 10 compatibility**: Prefer `context.sourceCode` property over deprecated `context.getSourceCode()` method
+- Added `test:eslint10` script for testing against ESLint 10
+- Updated minimum Node.js engine requirement to >=18.0.0 (aligned with ESLint 9+ requirements)
+
 ### Version 1.4.0
 - **Added ES5 coordinated transformation**: Implemented full support for ES5 coordinated transformation patterns
 - Fixed ES5 pattern detection: `var obj = useSelector(...); var foo = obj.foo; var bar = obj.bar;` now transforms to eliminate intermediate variables entirely  
